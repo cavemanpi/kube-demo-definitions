@@ -5,7 +5,7 @@ This is a repo containing some simple definitions for Kubernetes object. It is m
 # Prerequisites
 
 * Clone this repo.
-* Install `kubectl` (https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-macos). The `kubectl` command line utility is the Swiss army knife of kubernetes cluster management.
+* Install `kubectl` (https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-macos). The `kubectl` command line utility is the Swiss army knife of kubernetes cluster management. Don't worry about configuring it. When you start `minikube` below, minikube will configure kubectl.
   * I encountered a scenario when installing with homebrew, and then updating kubectl where it wasn't working correctly. Solution was to run
   ```
   rm /usr/local/bin/kubectl
@@ -31,7 +31,7 @@ minikube addons enable ingress
   docker pull cavemanpi/toy-greeter-api:0.2
   docker pull cavemanpi/toy-greeter-ui:0.1
   ```
-* Optional - Install `watch`. It is a command line utility which allows you to execute commands in a loop over a time interval. I find it helpful for visualizing changes to pods by running something like:
+* Optional - Install `watch`. This can be installed by your package management system including `brew` on mac. It is a command line utility which allows you to execute commands in a loop over a time interval. I find it helpful for visualizing changes to pods by running something like:
 ```
 watch -n 1 kubectl get pods
 ```
