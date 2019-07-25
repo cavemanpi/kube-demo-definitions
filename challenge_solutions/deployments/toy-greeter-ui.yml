@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: toy-greeter-ui
+  name: toy-greeter-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: toy-greeter-ui
+  template:
+    metadata:
+      labels:
+        run: toy-greeter-ui
+    spec:
+      containers:
+      - image: cavemanpi/toy-greeter-ui:0.1
+        imagePullPolicy: IfNotPresent
+        name: toy-greeter-ui
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+        env:
+        - name: API_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: toy-greeter-password
+              key: password
+        - name: API_USER
+          value: greeter 
+        - name: API_HOST
+          value: http://toy-greeter-api:5000
+      restartPolicy: Always

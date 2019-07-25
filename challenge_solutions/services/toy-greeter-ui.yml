@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: toy-greeter-ui
+  name: toy-greeter-ui
+spec:
+  ports:
+  - port: 5000
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    run: toy-greeter-ui
+  type: ClusterIP
