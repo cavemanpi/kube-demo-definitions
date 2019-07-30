@@ -50,6 +50,8 @@ For the challenge, I would like you to take the concepts you have learned in the
 ### Toy Greeter API
 The toy greeter api, found at https://cloud.docker.com/u/cavemanpi/repository/docker/cavemanpi/toy-greeter-api is a simple flask application which returns a JSON dictionary containing a single key, `salutation`. The content of the `salutation` key is a string randomly selected from a small list of options.
 
+The application listens on port 5000.
+
 For a request to the application to be successful, the requester must provide credentials via basic auth. The application can be configure to accept particular credentials by providing it with the following environment variables:
 
 * USER - The username a user must connect with. Default: `default`
@@ -57,6 +59,8 @@ For a request to the application to be successful, the requester must provide cr
 
 ### Toy Greeter UI
 The toy greeter ui, found at https://cloud.docker.com/repository/docker/cavemanpi/toy-greeter-ui, is a simple flask app meant to be used in tandem with the toy greeter api application. It performs a request to the configured host. It expects the response to have a JSON body having the form of a dictionary containing the key `salutation`. It takes the string in that key and prints "Hello, {salutation}!" in a response to an HTTP request.
+
+The application listens on port 5000.
 
 In order to make the correct API requests, this application must be configured. It can be configured with the following environment variables:
 
