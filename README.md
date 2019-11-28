@@ -4,6 +4,8 @@ This is a repo containing some simple definitions for Kubernetes object. It is m
 
 # Prerequisites
 
+### OSX and nix systems
+
 * Clone this repo.
 * Install `kubectl` (https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-macos). The `kubectl` command line utility is the Swiss army knife of kubernetes cluster management. Don't worry about configuring it. When you start `minikube` below, minikube will configure kubectl.
   * I encountered a scenario when installing with homebrew, and then updating kubectl where it wasn't working correctly. Solution was to run
@@ -11,11 +13,11 @@ This is a repo containing some simple definitions for Kubernetes object. It is m
   rm /usr/local/bin/kubectl
   brew link --overwrite kubernetes-cli
   ```
+* Install `virtualbox` (https://www.virtualbox.org/wiki/Downloads). This is a virtual machine hyperviser. This is not the default hypervisor for `minikube`. I encountered problems on OSX with the default hypervisor (Hyper-V) where hostname resolution wasn't working properly to pull down all the images kubernetes needs to run. Using `virtualbox` resolved this issue for me. This issue wasn't present on Windows. Untested on nix distros.
 * Install `minikube` (https://kubernetes.io/docs/setup/learning-environment/minikube/) or otherwise have a kubernetes cluster available. Minikube is a virtual machine setup which gives you a local kubernetes learning environment.
   * You should start the VM at least once to make sure it initializes correctly.
-  * If starting minikube hangs when pulling the VM images, start with
   ```
-  minikube start --cache-images=false
+  minikube start --cache-images=false --vm-driver virtualbox
   ```
 * Configure minikube to be able to use ingresses:
 ```
@@ -27,14 +29,61 @@ minikube addons enable ingress
   ```
   docker pull nginx:1.14.2
   docker pull nginx:1.17.1
-  docker pull python:3
+  docker pull everpeace/curl-jq
   docker pull cavemanpi/toy-greeter-api:0.2
   docker pull cavemanpi/toy-greeter-ui:0.1
   ```
-* Install `watch`. This can be installed by your package management system including `brew` on mac. It is a command line utility which allows you to execute commands in a loop over a time interval. I find it helpful for visualizing changes to pods by running something like:
+* (Optional) Install `watch`. This can be installed by your package management system including `brew` on mac. It is a command line utility which allows you to execute commands in a loop over a time interval. I find it helpful for visualizing changes to pods by running something like:
 ```
 watch -n 1 kubectl get pods
 ```
+
+### Windows 10
+
+Note: You need Administrator access on your computer set up minikube following these instructions.
+
+* Verify you have everything you need to run Hyper-V
+  * Open a command prompt and run:
+  ```
+  systeminfo
+  ```
+  * If you see the following, you are set to continue, otherwise you may not be able to complete the rest of the setup:
+  ```
+  Hyper-V Requirements:     VM Monitor Mode Extensions: Yes
+                              Virtualization Enabled In Firmware: Yes
+                            Second Level Address Translation: Yes
+                            Data Execution Prevention Available: Yes
+  ```
+* Clone this repo.
+* Enable the Hyper-V hypervisor
+  * Open a PowerShell console as Administrator.
+  * Run the following command:
+  ```
+  Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+  ```
+* Install `kubectl` (https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-windows) The `kubectl` command line utility is the Swiss army knife of kubernetes cluster management. Don't worry about configuring it. When you start `minikube` below, minikube will configure kubectl.
+* Install `minikube` (https://kubernetes.io/docs/tasks/tools/install-minikube/) or otherwise have a kubernetes cluster available. Minikube is a virtual machine setup which gives you a local kubernetes learning environment.
+  * The `chocolatey` installer didn't work for me. I ended up just using exe installer.
+  * I highly recommend adding a shortcut to the minikube executable to your path. The default installation path for me was c:\Program Files\Kubernetes\Minikube\minikube
+  * You should start the VM at least once to make sure it initializes correctly.
+    * Open a command prompt as an administrator and run:
+    ```
+    minikube start --cache-images=false
+    ```
+* Configure minikube to be able to use ingresses:
+```
+minikube addons enable ingress
+```
+* Log into the minikube VM and pull down some docker images. You ordinarily don't need to do this. Kubernetes typically pulls docker images for you. Doing this ahead of time will help us keep strain off the conference network and help the demo move faster.
+  * Run `minikube ssh` to get a shell into the minikube VM.
+  * Run
+  ```
+  docker pull nginx:1.14.2
+  docker pull nginx:1.17.1
+  docker pull everpeace/curl-jq
+  docker pull cavemanpi/toy-greeter-api:0.2
+  docker pull cavemanpi/toy-greeter-ui:0.1
+  ```
 
 
 # Challenge
