@@ -1,0 +1,57 @@
+kubectl apply -f deployments/nginx.yml
+
+kubectl expose deployment nginx --port=80
+
+kubectl get deployments
+
+kubectl describe deployment nginx
+
+kubectl get pods
+
+kubectl describe pod <pod_name_here>
+
+kubectl get services
+
+kubectl run -it --rm --image everpeace/curl-jq bash bash
+
+kubectl delete deployment nginx
+
+kubectl apply -f deployments/nginx.yml
+
+kubectl apply -f deployments/nginx.yml
+
+kubectl scale --replicas 1 deployment nginx
+
+kubectl run nginx \
+    --image=nginx:1.14.2 \
+    --replicas=5 \
+    --expose --port 80 \
+    --limits cpu=.5,memory=512Mi \
+    --env  FIPS=1 \
+    --generator=run-pod/v1 \
+    --dry-run -o yaml
+
+
+watch -n 1 kubectl get pods
+
+kubectl edit deployment nginx
+
+kubectl rollout undo deployment.v1.apps/nginx
+
+kubectl apply -f ingresses/ingress-example.yml
+
+minikube ip
+
+kubectl apply -f ingresses/ingress-host-example.yml
+
+kubectl apply -f ingresses/ingress-host-example.yml
+
+kubectl create secret generic nginx-user-pass \
+    --from-file=./username \
+    --from-file=./password
+
+kubectl get secret -o yaml nginx-user-pass
+
+kubectl apply -f deployments/nginx-secret.yml
+
+kubectl exec -it <pod_name_here> bashkubectl apply -f deployments/nginx.yml
